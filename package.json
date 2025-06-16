@@ -4,12 +4,13 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npm run --watch app.js"
+    "dev": "node --watch app.js"
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "mysql2": "^3.14.1"
   }
 }
