@@ -2,7 +2,7 @@
 const connection = require("../data/db");
 
 const index = (req, res) => {
-  const sql = "SELECT * FROM `movies`";
+  const sql = "SELECT * FROM `reviews`";
   connection.query(sql, (err, results) => {
     if (err) throw err;
     res.json({
@@ -17,7 +17,7 @@ const show = (req, res) => {
   const movieId = parseInt(req.params.id);
 
   const sql = `SELECT * 
-  FROM movies
+  FROM reviews 
   WHERE id = ?`;
 
   connection.query(sql, [movieId], (err, results) => {
