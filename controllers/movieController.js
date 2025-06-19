@@ -29,4 +29,42 @@ const show = (req, res) => {
   });
 };
 
-module.exports = { index, show };
+// REVIEWS
+
+const storeReview = (req, res) => {
+  const { id } = req.params;
+  const { movie_id = id, name, vote, text } = req.body;
+  let errors = [];
+  if (!name) {
+    errors.push({ fieldName: "name", message: "inserire il nome" });
+  }
+  if (!vote || vote < 1 || vote > 5) {
+    errors.push({ fieldName: "vote", message: "inserire il voto" });
+  }
+
+  if (!text) {
+    errors.push({
+      fieldName: "text",
+      message: "inserire il testo della recensione",
+    });
+  }
+  if (errors.length) {
+    return res.status(403).json({ message: "invalid payload" });
+  }
+
+  const sqlStoreReview = `INSERT INTO movies.reviews (movie_id, name, vote, text) VALUES (?, ?, ?, ?);`;
+
+  connection.query(
+    sqlStoreReview,
+    [movie_id, name, vote, text],
+    (err, results) => {
+      if (err)
+        return res
+          .status(500)
+          .json({ error: "Error exequting query", details: err.message });
+      res.status(201).json({ message: "review added", id: results.insertId });
+    }
+  );
+};
+
+module.exports = { index, show, storeReview };
